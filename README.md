@@ -1,4 +1,4 @@
-# 💪 MauiAppFit - .NET MAUI
+# MauiAppFit - .NET MAUI
 
 ## Sobre o Projeto
 
