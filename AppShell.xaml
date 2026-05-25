@@ -8,19 +8,25 @@
     Title="MauiAppFit">
 
 	<TabBar>
-		<Tab Title="Nova Atividade" Route="CadastroAtividade">
+		<Tab Title="Nova Atividade" 
+             Icon="exercicio.png"
+             Route="CadastroAtividade">
 			<ShellContent>
 				<Views:CadastroAtividade Title="Cadastro Atividade" />
 			</ShellContent>
 		</Tab>
 
-		<Tab Title="Minhas Atividades" Route="ListaAtividades">
+		<Tab Title="Minhas Atividades" 
+             Icon="meus_exercicios.png"
+             Route="ListaAtividades">
 			<ShellContent>
 				<Views:ListaAtividades Title="Minhas Atividades" />
 			</ShellContent>
 		</Tab>
 
-		<Tab Title="Sobre" Route="Sobre">
+		<Tab Title="Sobre" 
+             Icon="sobre.png"
+             Route="Sobre">
 			<ShellContent>
 				<Views:Sobre Title="Sobre" />
 			</ShellContent>

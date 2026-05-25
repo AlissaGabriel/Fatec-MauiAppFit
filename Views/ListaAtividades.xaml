@@ -29,8 +29,8 @@
 						<DataTemplate>
 							<ViewCell>
 								<ViewCell.ContextActions>
-									<MenuItem Text="Detalhes"/>
-									<MenuItem Text="Excluir"/>
+                                    <MenuItem Text="Detalhes" Command="{Binding Source={x:Reference Pagina}, Path=BindingContext.AbrirDetalhes}" CommandParameter="{Binding Id}"/>
+                                    <MenuItem Text="Excluir" Command="{Binding Source={x:Reference Pagina}, Path=BindingContext.Remover}" CommandParameter="{Binding Id}"/>
 								</ViewCell.ContextActions>
 								<Grid ColumnDefinitions="*, *, *">
 									<Label Grid.Column="0" Text="{Binding Id}"/>

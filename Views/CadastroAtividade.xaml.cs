@@ -14,5 +14,10 @@ public partial class CadastroAtividade : ContentPage
 	protected override async void OnAppearing()
 	{
 		var vm = (CadastroAtividadeViewModel)BindingContext;
+
+		if(vm.Id == null)
+		{
+			vm.NovaAtividade.Execute(null);
+		}
 	}
 }

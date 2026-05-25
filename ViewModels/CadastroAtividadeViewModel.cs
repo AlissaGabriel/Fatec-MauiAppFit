@@ -1,18 +1,29 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Input;
 using MauiAppFit.Models;
 
 namespace MauiAppFit.ViewModels
 {
-    public class CadastroAtividadeViewModel : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler? PropertyChanged;
+	[QueryProperty("PegarIdNavegacao", "parametro_id")]
+	public class CadastroAtividadeViewModel : INotifyPropertyChanged
+	{
+		public event PropertyChangedEventHandler? PropertyChanged;
 
-        string? descricao;
+		string? descricao;
 		string? observacoes;
-        int? id;
-        DateTime data = DateTime.Now;
+		int? id;
+		DateTime? data = DateTime.Now;
 		double? peso;
+
+		public string PegarIdNavegacao
+		{
+			set
+			{
+				int id = Convert.ToInt32(Uri.UnescapeDataString(value));
+				VerAtividade.Execute(id);
+			}
+		}
 
         public string? Descricao
         {
@@ -44,7 +55,7 @@ namespace MauiAppFit.ViewModels
 			}
 		}
 
-		public DateTime Data
+		public DateTime? Data
 		{
 			get => data;
 			set
@@ -77,7 +88,7 @@ namespace MauiAppFit.ViewModels
 						Peso = this.Peso,
 						Observacoes = this.Observacoes
 					};
-					if (this.Id == 0)
+					if (this.Id == null)
 					{
 						await App.Database.Insert(model);
 					}
@@ -87,7 +98,7 @@ namespace MauiAppFit.ViewModels
 						await App.Database.Update(model);
 					}
 					await Shell.Current.DisplayAlertAsync("Beleza", "Dados salvos com sucesso!", "OK");
-					await Shell.Current.GoToAsync("//MinhasAtividades");
+					await Shell.Current.GoToAsync("//ListaAtividades");
 				}
 				catch (Exception ex)
 				{
@@ -96,5 +107,36 @@ namespace MauiAppFit.ViewModels
 			});
 		}
 
+		public ICommand VerAtividade
+		{
+			get => new Command<int>(async (int id) =>
+			{
+				try
+				{
+					Atividade model = await App.Database.GetById(id);
+					this.Id = model.Id;
+					this.Descricao = model.Descricao;
+					this.Data = model.Data;
+					this.Peso = model.Peso;
+					this.Observacoes = model.Observacoes;
+				}
+				catch (Exception ex)
+				{
+					await Shell.Current.DisplayAlertAsync("Ops", ex.Message, "OK");
+				}
+			});
+		} // Fecha Command VerAtividade
+
+		public ICommand NovaAtividade
+		{
+			get => new Command(() =>
+			{
+				this.Id = null;
+				this.Descricao = "";
+				this.Data = DateTime.Now;
+				this.Peso = null;
+				this.Observacoes = string.Empty;
+			});
+		}
 	}
 }
